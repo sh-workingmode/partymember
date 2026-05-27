@@ -1,0 +1,600 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .page {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #fffaf6;
+    min-height: 100vh;
+    color: #2c2018;
+  }
+
+  .hero {
+    background: linear-gradient(160deg, #fff5ec 0%, #fdecd8 60%, #f8d9be 100%);
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid #f0d8c0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '💍';
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.06;
+    top: -10px;
+    right: -20px;
+    transform: rotate(20deg);
+  }
+
+  .badge {
+    display: inline-block;
+    background: #b5622a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 700;
+    color: #1e1208;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 span { color: #b5622a; }
+
+  .hero p {
+    font-size: 14px;
+    color: #6b4c30;
+    line-height: 1.7;
+    max-width: 380px;
+    margin: 0 auto 0.5rem;
+  }
+
+  .ring-icon {
+    font-size: 48px;
+    margin-bottom: 0.5rem;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .deadline-chip {
+    display: inline-block;
+    background: #fff0e6;
+    border: 1px solid #f0c8a0;
+    color: #b5622a;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-top: 10px;
+  }
+
+  .progress-section {
+    background: #fff;
+    border: 1px solid #edd5b8;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem;
+    box-shadow: 0 2px 12px rgba(181,98,42,0.07);
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .progress-label { font-size: 13px; color: #7a5030; font-weight: 500; }
+
+  .progress-count { font-size: 22px; font-weight: 700; color: #b5622a; }
+  .progress-count span { font-size: 14px; color: #aaa; font-weight: 400; }
+
+  .progress-bar-bg {
+    background: #f5e0cb;
+    border-radius: 100px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #d4844a, #b5622a);
+    transition: width 0.8s ease;
+  }
+
+  .progress-note { font-size: 12px; color: #aaa; text-align: center; }
+  .progress-note strong { color: #b5622a; }
+
+  .amount-box {
+    background: #fff8f2;
+    border: 1px dashed #e0b088;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b4c30;
+  }
+
+  .amount-highlight {
+    font-size: 18px;
+    font-weight: 700;
+    color: #b5622a;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e1208;
+    margin: 0 1.5rem 0.75rem;
+    padding-left: 10px;
+    border-left: 3px solid #b5622a;
+  }
+
+  .members-section { margin: 0 1.5rem 1.5rem; }
+
+  .member-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .member-slot {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 2px solid #edd5b8;
+    background: #fff;
+    position: relative;
+  }
+
+  .member-slot.filled { background: #fdecd8; border-color: #d4844a; }
+  .member-slot.empty { background: #faf5f0; border-color: #e8d4c0; color: #ccc; font-size: 20px; }
+
+  .members-caption { font-size: 12px; color: #aaa; margin-top: 10px; }
+
+  .cta-section { margin: 0 1.5rem 1.5rem; }
+
+  .cta-btn {
+    width: 100%;
+    background: #b5622a;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .cta-btn:hover { background: #9a4f20; }
+  .cta-btn:active { transform: scale(0.98); }
+  .cta-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .cta-sub { font-size: 12px; color: #aaa; text-align: center; margin-top: 8px; line-height: 1.6; }
+
+  .detail-section {
+    margin: 0 1.5rem 1.5rem;
+    background: #fff;
+    border: 1px solid #edd5b8;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f5e8d8;
+    font-size: 14px;
+  }
+
+  .detail-row:last-child { border-bottom: none; }
+
+  .detail-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .detail-key { color: #aaa; min-width: 70px; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+  .detail-val { color: #1e1208; font-weight: 500; line-height: 1.5; }
+  .detail-val strong { color: #b5622a; }
+
+  .faq-section { margin: 0 1.5rem 2rem; }
+
+  .faq-item {
+    background: #fff;
+    border: 1px solid #edd5b8;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e1208;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-q:hover { background: #fffaf6; }
+
+  .faq-a {
+    display: none;
+    padding: 0 16px 14px;
+    font-size: 13px;
+    color: #6b4c30;
+    line-height: 1.7;
+  }
+
+  .faq-item.open .faq-a { display: block; }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-arrow { font-size: 12px; color: #aaa; transition: transform 0.2s; }
+
+  footer {
+    border-top: 1px solid #edd5b8;
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 12px;
+    color: #bbb;
+    line-height: 1.8;
+  }
+
+  .modal-wrap {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30,18,8,0.55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .modal-wrap.show { display: flex; }
+
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .modal h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e1208;
+    margin-bottom: 4px;
+  }
+
+  .modal .modal-sub { font-size: 13px; color: #aaa; margin-bottom: 1.25rem; }
+
+  .modal label { display: block; font-size: 12px; color: #6b4c30; font-weight: 500; margin-bottom: 5px; }
+
+  .modal input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #edd5b8;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #1e1208;
+    background: #fffaf6;
+    margin-bottom: 12px;
+    outline: none;
+  }
+
+  .modal input:focus { border-color: #b5622a; }
+
+  .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
+
+  .modal-cancel {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #edd5b8;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  .modal-confirm {
+    flex: 2;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #b5622a;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+  }
+
+  .modal-confirm:hover { background: #9a4f20; }
+  .modal-confirm:disabled { background: #ccc; cursor: not-allowed; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e1208;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    z-index: 200;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .toast.show { opacity: 1; }
+</style>
+
+<div class="page">
+
+  <div class="hero">
+    <span class="ring-icon">💍</span>
+    <div class="badge">파티 모집 중</div>
+    <h1>로이 돌잔치 기념<br><span>반돈 돌반지 선물</span></h1>
+    <p>소중한 로이의 첫 돌을 함께 축하해요.<br>6명 이상 모이면 진행 확정됩니다!</p>
+    <div class="deadline-chip">⏰ 마감 5월 28일(목)</div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-label">현재 모집 현황</span>
+      <span class="progress-count" id="count-display">0<span>/6명</span></span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+    <p class="progress-note" id="progress-note">목표 <strong>6명</strong>까지 <strong id="remain">6명</strong> 남았어요 🎯</p>
+    <div class="amount-box">
+      <span>💰</span>
+      <span>현재 <strong id="cur-count-txt">0</strong>명 기준 예상 금액 <span class="amount-highlight" id="amount-display">—</span></span>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1.5rem;">파티원 현황</div>
+  <div class="members-section">
+    <div class="member-list" id="member-list"></div>
+    <p class="members-caption">현재 참여 인원만 공개 · 6명 이상 모집 시 자동 확정</p>
+  </div>
+
+  <div class="cta-section">
+    <button class="cta-btn" id="join-btn" onclick="openModal()">💍 나도 참여할게요!</button>
+    <p class="cta-sub">마감: 5월 28일(목) · 미달 시 자동 취소</p>
+  </div>
+
+  <div class="section-title">선물 상세 정보</div>
+  <div class="detail-section">
+    <div class="detail-row">
+      <span class="detail-icon">👶</span>
+      <span class="detail-key">대상</span>
+      <span class="detail-val">로이 돌잔치 기념 선물</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">💍</span>
+      <span class="detail-key">선물</span>
+      <span class="detail-val">반돈 돌반지</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">💰</span>
+      <span class="detail-key">참여금</span>
+      <span class="detail-val">인원에 따라 n분의 1 · <strong>6명 기준 약 10만원</strong></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">📅</span>
+      <span class="detail-key">마감일</span>
+      <span class="detail-val"><strong>5월 28일(목)</strong></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">✅</span>
+      <span class="detail-key">진행 조건</span>
+      <span class="detail-val">6명 이상 모집 시 자동 확정</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">❌</span>
+      <span class="detail-key">미달 시</span>
+      <span class="detail-val">반돈 돌반지 구매 무산</span>
+    </div>
+  </div>
+
+  <div class="section-title">자주 묻는 질문</div>
+  <div class="faq-section">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">6명보다 더 모이면 어떻게 되나요? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">1인당 금액을 n분의 1로 나눌 예정이라, 인원이 많아질수록 제출 금액이 적어집니다.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">언제 돈을 내야 하나요? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">마감일 이후 6명 이상 지원 시 반지 선택 후 결제금액이 확정되면, 구매자에게 계좌이체 해주시면 됩니다.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">반지 디자인은 누가 정하나요? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">가격에 맞춰 몇 가지 선택안 중 다수결로 선택할 예정입니다.</div>
+    </div>
+  </div>
+
+  <footer>
+    로이 돌잔치 반돌반지 파티 모집<br>
+    문의는 주최자에게 직접 연락해 주세요
+  </footer>
+</div>
+
+<!-- 참여 모달 -->
+<div id="modal-wrap" class="modal-wrap" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <h3>파티 참여 신청 💍</h3>
+    <p class="modal-sub">이름과 연락처를 남겨주시면 확정 시 안내드려요</p>
+    <label>이름</label>
+    <input type="text" id="input-name" placeholder="홍길동" />
+    <label>연락처 (전화번호 또는 카카오ID)</label>
+    <input type="text" id="input-contact" placeholder="010-0000-0000" />
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">취소</button>
+      <button class="modal-confirm" id="confirm-btn" onclick="submitJoin()">참여 신청하기</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxRxUwXi1kVZHcRISy0ZoAd7-XBZdDUPuTkGBpAEzO0uyAm2LIwOTYG9LC9rHSO--4ekA/exec';
+  const GOAL = 6;
+  const BASE_AMOUNT = 100000;
+  let count = 0;
+
+  function renderSlots() {
+    const list = document.getElementById('member-list');
+    list.innerHTML = '';
+    const emojis = ['👩','👨','👩‍🦱','🧑','👩‍💼','👨‍💼','🧑‍💻','👩‍🦰','👨‍🦱','👴'];
+    const total = Math.max(count, GOAL);
+    for (let i = 0; i < total; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'member-slot ' + (i < count ? 'filled' : 'empty');
+      slot.textContent = i < count ? emojis[i % emojis.length] : '+';
+      list.appendChild(slot);
+    }
+    if (count > GOAL) {
+      const extra = document.createElement('div');
+      extra.className = 'member-slot filled';
+      extra.style.cssText = 'background:#f5e0cb;border-color:#deb990;font-size:13px;color:#aaa;';
+      extra.textContent = '+α';
+      list.appendChild(extra);
+    }
+  }
+
+  function updateUI(n) {
+    count = n;
+    const pct = Math.min(Math.round((n / GOAL) * 100), 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('count-display').innerHTML = n + '<span>/' + GOAL + '명</span>';
+    const remain = Math.max(GOAL - n, 0);
+    document.getElementById('remain').textContent = remain;
+    document.getElementById('cur-count-txt').textContent = n;
+
+    if (n >= GOAL) {
+      document.getElementById('progress-note').innerHTML = '🎉 목표 인원 달성! 진행 확정입니다';
+      document.getElementById('progress-note').style.color = '#b5622a';
+    }
+
+    if (n > 0) {
+      const perPerson = Math.round(BASE_AMOUNT / n / 1000) * 1000;
+      document.getElementById('amount-display').textContent = perPerson.toLocaleString() + '원';
+    } else {
+      document.getElementById('amount-display').textContent = '—';
+    }
+    renderSlots();
+  }
+
+  function openModal() {
+    document.getElementById('modal-wrap').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-wrap').classList.remove('show');
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal-wrap')) closeModal();
+  }
+
+  async function submitJoin() {
+    const name = document.getElementById('input-name').value.trim();
+    const contact = document.getElementById('input-contact').value.trim();
+    if (!name || !contact) { showToast('이름과 연락처를 입력해 주세요!'); return; }
+
+    const btn = document.getElementById('confirm-btn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, contact })
+      });
+      closeModal();
+
+      setTimeout(() => {
+        loadCount();
+      }, 800);
+
+      document.getElementById('join-btn').disabled = true;
+      document.getElementById('join-btn').textContent = '✅ 참여 신청 완료!';
+      showToast('🎉 신청 완료! 확정 시 연락드릴게요');
+      document.getElementById('input-name').value = '';
+      document.getElementById('input-contact').value = '';
+    } catch (err) {
+      showToast('오류가 발생했어요. 다시 시도해 주세요.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = '참여 신청하기';
+  }
+
+  function toggleFaq(el) { el.classList.toggle('open'); }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+
+  function loadCount() {
+    const callbackName = 'handleCount_' + Date.now();
+
+    window[callbackName] = function(data) {
+      updateUI(Number(data.count || 0));
+      delete window[callbackName];
+      script.remove();
+    };
+
+    const script = document.createElement('script');
+    script.src = SHEET_URL + '?callback=' + callbackName;
+    document.body.appendChild(script);
+  }
+
+  loadCount();
+</script>
