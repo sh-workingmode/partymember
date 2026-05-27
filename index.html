@@ -160,82 +160,92 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxRxUwXi1kVZHcRISy0ZoAd7-XBZdDUPuTkGBpAEzO0uyAm2LIwOTYG9LC9rHSO--4ekA/exec';
-    const GOAL = 6;
-    const BASE_AMOUNT = 100000;
-    let count = 0;
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxRxUwXi1kVZHcRISy0ZoAd7-XBZdDUPuTkGBpAEzO0uyAm2LIwOTYG9LC9rHSO--4ekA/exec';
+  const GOAL = 6;
+  const BASE_AMOUNT = 100000;
+  let count = 0;
 
-    function renderSlots() {
-      const list = document.getElementById('member-list');
-      list.innerHTML = '';
-      const emojis = ['👩','👨','👩‍🦱','🧑','👩‍💼','👨‍💼','🧑‍💻','👩‍🦰','👨‍🦱','👴'];
-      const total = Math.max(count, GOAL);
-      for (let i = 0; i < total; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'member-slot ' + (i < count ? 'filled' : 'empty');
-        slot.textContent = i < count ? emojis[i % emojis.length] : '+';
-        list.appendChild(slot);
-      }
+  async function loadCount() {
+    try {
+      const res = await fetch(SHEET_URL, { mode: 'cors' });
+      const data = await res.json();
+      updateUI(data.count || 0);
+    } catch (err) {
+      updateUI(0);
     }
+  }
 
-    function updateUI(n) {
-      count = n;
-      const pct = Math.min(Math.round((n / GOAL) * 100), 100);
-      document.getElementById('progress-fill').style.width = pct + '%';
-      document.getElementById('count-display').innerHTML = n + '<span>/' + GOAL + '명</span>';
-      document.getElementById('remain').textContent = Math.max(GOAL - n, 0);
-      document.getElementById('cur-count-txt').textContent = n;
-      if (n >= GOAL) {
-        document.getElementById('progress-note').innerHTML = '🎉 목표 인원 달성! 진행 확정입니다';
-        document.getElementById('progress-note').style.color = '#b5622a';
-      }
-      if (n > 0) {
-        const per = Math.round(BASE_AMOUNT / n / 1000) * 1000;
-        document.getElementById('amount-display').textContent = per.toLocaleString() + '원';
-      } else {
-        document.getElementById('amount-display').textContent = '—';
-      }
-      renderSlots();
+  function renderSlots() {
+    const list = document.getElementById('member-list');
+    list.innerHTML = '';
+    const emojis = ['👩','👨','👩‍🦱','🧑','👩‍💼','👨‍💼','🧑‍💻','👩‍🦰','👨‍🦱','👴'];
+    const total = Math.max(count, GOAL);
+    for (let i = 0; i < total; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'member-slot ' + (i < count ? 'filled' : 'empty');
+      slot.textContent = i < count ? emojis[i % emojis.length] : '+';
+      list.appendChild(slot);
     }
+  }
 
-    function openModal() { document.getElementById('modal-wrap').classList.add('show'); }
-    function closeModal() { document.getElementById('modal-wrap').classList.remove('show'); }
-    function closeModalOutside(e) { if (e.target === document.getElementById('modal-wrap')) closeModal(); }
-
-    async function submitJoin() {
-      const name = document.getElementById('input-name').value.trim();
-      const contact = document.getElementById('input-contact').value.trim();
-      if (!name || !contact) { showToast('이름과 연락처를 입력해 주세요!'); return; }
-      const btn = document.getElementById('confirm-btn');
-      btn.disabled = true; btn.textContent = '제출 중...';
-      try {
-        await fetch(SHEET_URL, {
-          method: 'POST', mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, contact })
-        });
-        closeModal();
-        updateUI(count + 1);
-        document.getElementById('join-btn').disabled = true;
-        document.getElementById('join-btn').textContent = '✅ 참여 신청 완료!';
-        showToast('🎉 신청 완료! 확정 시 연락드릴게요');
-        document.getElementById('input-name').value = '';
-        document.getElementById('input-contact').value = '';
-      } catch(err) {
-        showToast('오류가 발생했어요. 다시 시도해 주세요.');
-      }
-      btn.disabled = false; btn.textContent = '참여 신청하기';
+  function updateUI(n) {
+    count = n;
+    const pct = Math.min(Math.round((n / GOAL) * 100), 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('count-display').innerHTML = n + '<span>/' + GOAL + '명</span>';
+    document.getElementById('remain').textContent = Math.max(GOAL - n, 0);
+    document.getElementById('cur-count-txt').textContent = n;
+    if (n >= GOAL) {
+      document.getElementById('progress-note').innerHTML = '🎉 목표 인원 달성! 진행 확정입니다';
+      document.getElementById('progress-note').style.color = '#b5622a';
     }
-
-    function toggleFaq(el) { el.classList.toggle('open'); }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg; t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2800);
+    if (n > 0) {
+      const per = Math.round(BASE_AMOUNT / n / 1000) * 1000;
+      document.getElementById('amount-display').textContent = per.toLocaleString() + '원';
+    } else {
+      document.getElementById('amount-display').textContent = '—';
     }
+    renderSlots();
+  }
 
-    updateUI(0);
-  </script>
+  function openModal() { document.getElementById('modal-wrap').classList.add('show'); }
+  function closeModal() { document.getElementById('modal-wrap').classList.remove('show'); }
+  function closeModalOutside(e) { if (e.target === document.getElementById('modal-wrap')) closeModal(); }
+
+  async function submitJoin() {
+    const name = document.getElementById('input-name').value.trim();
+    const contact = document.getElementById('input-contact').value.trim();
+    if (!name || !contact) { showToast('이름과 연락처를 입력해 주세요!'); return; }
+    const btn = document.getElementById('confirm-btn');
+    btn.disabled = true; btn.textContent = '제출 중...';
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, contact })
+      });
+      closeModal();
+      updateUI(count + 1);
+      document.getElementById('join-btn').disabled = true;
+      document.getElementById('join-btn').textContent = '✅ 참여 신청 완료!';
+      showToast('🎉 신청 완료! 확정 시 연락드릴게요');
+      document.getElementById('input-name').value = '';
+      document.getElementById('input-contact').value = '';
+    } catch(err) {
+      showToast('오류가 발생했어요. 다시 시도해 주세요.');
+    }
+    btn.disabled = false; btn.textContent = '참여 신청하기';
+  }
+
+  function toggleFaq(el) { el.classList.toggle('open'); }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  loadCount();
+</script>
 </body>
 </html>
